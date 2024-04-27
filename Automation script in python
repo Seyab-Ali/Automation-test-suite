@@ -1,0 +1,47 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+class WordPressDarkModeTest:
+    def __init__(self):
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://your-wordpress-site.com"
+        self.username = "your_username"
+        self.password = "your_password"
+
+    def login_to_wordpress(self):
+        self.driver.get(self.base_url + "/wp-login.php")
+        self.driver.find_element_by_id("user_login").send_keys(self.username)
+        self.driver.find_element_by_id("user_pass").send_keys(self.password)
+        self.driver.find_element_by_id("wp-submit").click()
+
+    def check_dark_mode_plugin(self):
+        try:
+            dark_mode_link = self.driver.find_element_by_link_text("WP Dark Mode")
+            dark_mode_link.click()
+            return True
+        except:
+            return False
+
+    def install_dark_mode_plugin(self):
+        self.driver.get(self.base_url + "/wp-admin/plugin-install.php?s=wp+dark+mode")
+        self.driver.find_element_by_css_selector(".install-now").click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".activate-now"))).click()
+
+    # Add other test methods for remaining scenarios...
+
+    def run_test_suite(self):
+        self.login_to_wordpress()
+
+        if not self.check_dark_mode_plugin():
+            self.install_dark_mode_plugin()
+
+        # Run other test cases...
+
+        self.driver.quit()
+
+if __name__ == "__main__":
+    test_suite = WordPressDarkModeTest()
+    test_suite.run_test_suite()
