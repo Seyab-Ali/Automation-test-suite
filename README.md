@@ -1,6 +1,6 @@
 # Automation-test-suite
 Prerequisites:
-Python installed on your system.
+Python installed on our system.
 Selenium WebDriver for Python (pip install selenium).
 Chrome WebDriver (chromedriver) installed and added to PATH.
 Steps to run the test suite:
